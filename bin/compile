@@ -59,12 +59,16 @@ ORIG_BUILD_DIR=$BUILD_DIR
 BUILD_DIR=$APP_DIR
 cd $BUILD_DIR
 
+BIN_DIR=$(cd $(dirname $0); pwd)
+
 unset ATLAS BLAS LAPACK LD_LIBRARY_PATH PATH PYTHONPATH
 export ATLAS="$BUILD_DIR/.heroku/vendor/lib/atlas-base/libatlas.a"
 export BLAS="$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas/libblas.a"
 export LAPACK="$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas/liblapack.a"
 export LD_LIBRARY_PATH="$BUILD_DIR/.heroku/python/lib/:$BUILD_DIR/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib/atlas-base:$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas"
 export PATH="$BUILD_DIR/.heroku/python/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+
 
 # Setup environment
 mkdir -p $CACHE_DIR
@@ -76,12 +80,11 @@ fi
 subtitle "Unpacking..."
 tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
 
+# Install Python.
+source $BIN_DIR/steps/python
 
-# installing application dependencies
-if [ -f $BUILD_DIR/requirements.txt ]; then
-	title "Found requirements.txt, installing dependencies using pip"
-	$BUILD_DIR/.heroku/python/bin/pip install -r requirements.txt --exists-action=w --src=./.heroku/src --allow-all-external
-fi
+# Install dependencies with Pip.
+sub-env $BIN_DIR/steps/pip-install
 
 # creating env variables
 title "Creating environment variables."
