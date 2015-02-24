@@ -81,8 +81,7 @@ fi
 subtitle "Unpacking..."
 tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
 
-# Install dependencies with Pip.
-source $BIN_DIR/steps/pip-install
+/app/.heroku/python/bin/pip install -r requirements.txt --exists-action=w --src=./.heroku/src --allow-all-external  | cleanup | indent
 
 # creating env variables
 title "Creating environment variables."
