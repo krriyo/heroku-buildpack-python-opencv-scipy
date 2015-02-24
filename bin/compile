@@ -65,14 +65,13 @@ export BLAS="$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas/libblas.a"
 export LAPACK="$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas/liblapack.a"
 export LD_LIBRARY_PATH="$BUILD_DIR/.heroku/python/lib/:$BUILD_DIR/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib/atlas-base:$BUILD_DIR/.heroku/vendor/lib/atlas-base/atlas"
 export PATH="$BUILD_DIR/.heroku/python/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export PYTHONPATH="$BUILD_DIR/.heroku/python/lib/python2.7/site-packages/:$BUILD_DIR/.heroku/vendor/lib/python2.7/site-packages/"
 
 # Setup environment
 mkdir -p $CACHE_DIR
 title "Generating environment"
 if [ ! -f $CACHE_DIR/env.tar.gz ]; then
 	subtitle "Fetching..."
-	curl -s -L "https://db.tt/38ZdLUoQ" > $CACHE_DIR/env.tar.gz
+	curl -s -L "https://dl.dropboxusercontent.com/u/2209498/buildpack.tar.gz" > $CACHE_DIR/env.tar.gz
 fi
 subtitle "Unpacking..."
 tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
@@ -93,7 +92,6 @@ export BLAS="\$HOME/.heroku/vendor/lib/atlas-base/atlas/libblas.a"
 export LAPACK="\$HOME/.heroku/vendor/lib/atlas-base/atlas/liblapack.a"
 export LD_LIBRARY_PATH="\$HOME/.heroku/python/lib/:\$HOME/.heroku/vendor/lib:\$HOME/.heroku/vendor/lib/atlas-base:\$HOME/.heroku/vendor/lib/atlas-base/atlas:\$LD_LIBRARY_PATH"
 export PATH="\$HOME/.heroku/python/bin:\$PATH"
-export PYTHONPATH="\$HOME/.heroku/python/lib/python2.7/site-packages/:\$HOME/.heroku/vendor/lib/python2.7/site-packages/"
 EOF
 
 deep-mv $BUILD_DIR $ORIG_BUILD_DIR
