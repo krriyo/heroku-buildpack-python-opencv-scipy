@@ -82,7 +82,7 @@ subtitle "Unpacking..."
 tar -xzf $CACHE_DIR/env.tar.gz -C $BUILD_DIR
 
 # Install dependencies with Pip.
-sub-env $BIN_DIR/steps/pip-install
+source $BIN_DIR/steps/pip-install
 
 # creating env variables
 title "Creating environment variables."
